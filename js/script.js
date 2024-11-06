@@ -1,51 +1,93 @@
 let personnelData = [];
+let filteredData = [];
+let currentIndex = 0; // 当前显示的索引
+const chunkSize = 500; // 初次加载500条数据
+const additionalChunkSize = 500; // 每次滚动加载500条数据
 
+// 获取数据并进行分块加载
 fetch('ppl/12w.txt')
     .then(response => response.text())
     .then(data => {
         personnelData = data.split('\n').map(entry => {
             const [name, id] = entry.split('----');
-            const area = getAreaById(id.trim());
-            const gender = matchGender(id.trim());
+            const area = getAreaById(id.trim()) || '未知';
+            const gender = matchGender(id.trim()) || '未知';
             return { name: name.trim(), id: id.trim(), area, gender };
         });
-        displayData(personnelData);
+        filteredData = [...personnelData];  // 初始化过滤数据
+        loadMoreData(chunkSize); // 初始加载500条数据
     })
     .catch(error => console.error('Error fetching the file:', error));
 
-function displayData(data) {
-    const personnelList = document.getElementById('personnel-list');
-    personnelList.innerHTML = data.map(person => {
-        return `<p><a href="#" class="person-link" data-id="${person.id}">${person.name}</a> (地区: ${person.area})</p>`;
-    }).join('');
+// 随机获取500条数据
+function getRandomData(chunk) {
+    const shuffled = [...filteredData].sort(() => 0.5 - Math.random()); // 随机打乱数据
+    return shuffled.slice(0, chunk); // 返回前500条
 }
 
+// 分块加载数据
+function loadMoreData(chunk) {
+    const personnelList = document.getElementById('personnel-list');
+    const nextData = getRandomData(chunk); // 获取随机的500条数据
+
+    // 生成HTML内容并添加到列表
+    nextData.forEach(person => {
+        personnelList.innerHTML += `<p><a href="#" class="person-link" data-id="${person.id}">${person.name}</a> (地区: ${person.area})</p>`;
+    });
+
+    // 更新当前显示的索引
+    currentIndex += chunk;
+}
+
+// 滚动事件监听器，用于检测用户是否滚动到底部
+window.addEventListener('scroll', () => {
+    const scrollPosition = window.scrollY + window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    // 调试：查看当前滚动位置和文档高度
+    console.log('Scroll position:', scrollPosition, 'Document height:', documentHeight);
+
+    // 判断是否滚动到页面底部
+    if (scrollPosition >= documentHeight - 100) { // 增加100px缓冲，防止过早触发
+        console.log('Scrolled to bottom');
+        loadMoreData(additionalChunkSize); // 滚动到底部加载更多500条数据
+    }
+});
+
+// 筛选按钮点击事件监听器
 document.getElementById('filterBtn').addEventListener('click', () => {
     const nameSearch = document.getElementById('nameSearch').value.trim().toLowerCase();
     const ageRange = document.getElementById('ageFilter').value;
     const gender = document.getElementById('genderFilter').value;
     const area = document.getElementById('areaFilter').value;
 
-    if (!nameSearch && !ageRange && !gender && !area) {
-        showModal("请输入名字或选择至少一个筛选条件进行筛选！");
-        return;
-    }
+    // 清除上次筛选的结果
+    currentIndex = 0;
+    document.getElementById('personnel-list').innerHTML = "";
 
-    let filteredData = personnelData.filter(person => {
+    // 根据筛选条件过滤数据
+    filteredData = personnelData.filter(person => {
         const nameMatch = nameSearch ? person.name.toLowerCase().includes(nameSearch) : true;
-        const ageMatch = ageRange ? matchAge(person.id, ageRange) : true;
-        const genderMatch = gender ? person.gender === gender : true;
-        const areaMatch = area ? person.area === area : true;
+        const ageMatch = ageRange && ageRange !== "未知" ? matchAge(person.id, ageRange) : true;
+        const genderMatch = gender && gender !== "未知" ? person.gender === gender : true;
+        const areaMatch = area && area !== "未知" ? person.area === area : true;
         return nameMatch && ageMatch && genderMatch && areaMatch;
     });
 
-    displayData(filteredData);
+    // 如果筛选后没有数据，提示用户
+    if (filteredData.length === 0) {
+        showModal("没有符合筛选条件的人员！");
+    } else {
+        // 筛选后重新加载数据
+        loadMoreData(chunkSize); // 筛选后重新加载500条数据
+    }
 });
 
+// 人员点击事件监听器
 document.getElementById('personnel-list').addEventListener('click', (event) => {
     if (event.target.classList.contains('person-link')) {
         const id = event.target.getAttribute('data-id');
-        const person = personnelData.find(p => p.id === id);
+        const person = filteredData.find(p => p.id === id);
         if (person) {
             document.getElementById('nameField').textContent = person.name;
             document.getElementById('idField').textContent = person.id;
@@ -61,10 +103,12 @@ document.getElementById('personnel-list').addEventListener('click', (event) => {
     }
 });
 
+// 关闭弹出窗口
 document.querySelector('.close').addEventListener('click', () => {
     document.getElementById('modal').style.display = 'none';
 });
 
+// 点击可复制内容进行复制
 document.addEventListener('click', (event) => {
     if (event.target.classList.contains('copyable')) {
         const text = event.target.textContent;
@@ -74,6 +118,7 @@ document.addEventListener('click', (event) => {
     }
 });
 
+// 年龄匹配函数
 function matchAge(id, range) {
     const currentYear = new Date().getFullYear();
     const birthYear = parseInt(id.slice(6, 10));
@@ -87,16 +132,19 @@ function matchAge(id, range) {
     return true;
 }
 
+// 性别匹配函数
 function matchGender(id) {
     const genderChar = id.charAt(16);
     return genderChar % 2 === 0 ? '女' : '男';
 }
 
+// 显示模态框函数
 function showModal(message) {
     document.getElementById('modalContent').textContent = message;
     document.getElementById('modal').style.display = 'block';
 }
 
+// 地区匹配函数
 function getAreaById(id) {
     const provinceCodes = {
         '11': '北京', '12': '天津', '13': '河北', '14': '山西', '15': '内蒙古', '21': '辽宁', '22': '吉林', '23': '黑龙江',
@@ -106,3 +154,8 @@ function getAreaById(id) {
     };
     return provinceCodes[id.slice(0, 2)] || '未知';
 }
+
+// 刷新按钮点击事件监听器
+document.getElementById("refreshBtn").addEventListener("click", function() {
+    location.reload(); // 刷新页面
+});
