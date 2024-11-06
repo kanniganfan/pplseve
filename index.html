@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>人员信息</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <h1>人员信息列表</h1>
-    
-    <div>
+
+    <!-- 搜索框和筛选项的容器 -->
+    <div class="filter-box">
         <input type="text" id="nameSearch" placeholder="搜索名字..." />
         <select id="ageFilter">
             <option value="">选择年龄</option>
@@ -19,20 +22,54 @@
             <option value="46-55">46-55</option>
             <option value="56-65">56-65</option>
             <option value="66+">66+</option>
+            <option value="未知">未知</option>
         </select>
         <select id="genderFilter">
             <option value="">选择性别</option>
             <option value="男">男</option>
             <option value="女">女</option>
+            <option value="未知">未知</option>
         </select>
         <select id="areaFilter">
             <option value="">选择地区</option>
             <option value="北京">北京</option>
-            <!-- 其他省份选项 -->
+            <option value="天津">天津</option>
+            <option value="河北">河北</option>
+            <option value="山西">山西</option>
+            <option value="内蒙古">内蒙古</option>
+            <option value="辽宁">辽宁</option>
+            <option value="吉林">吉林</option>
+            <option value="黑龙江">黑龙江</option>
+            <option value="上海">上海</option>
+            <option value="江苏">江苏</option>
+            <option value="浙江">浙江</option>
+            <option value="安徽">安徽</option>
+            <option value="福建">福建</option>
+            <option value="江西">江西</option>
+            <option value="山东">山东</option>
+            <option value="河南">河南</option>
+            <option value="湖北">湖北</option>
+            <option value="湖南">湖南</option>
+            <option value="广东">广东</option>
+            <option value="广西">广西</option>
+            <option value="海南">海南</option>
+            <option value="重庆">重庆</option>
+            <option value="四川">四川</option>
+            <option value="贵州">贵州</option>
+            <option value="云南">云南</option>
+            <option value="西藏">西藏</option>
+            <option value="陕西">陕西</option>
+            <option value="甘肃">甘肃</option>
+            <option value="青海">青海</option>
+            <option value="宁夏">宁夏</option>
+            <option value="新疆">新疆</option>
+            <option value="未知">未知</option>
         </select>
         <button id="filterBtn">筛选</button>
     </div>
 
+    
+    <!-- 人员信息列表 -->
     <div id="personnel-list" class="personnel-list"></div>
 
     <!-- 弹出窗口 -->
@@ -45,14 +82,18 @@
                 <p>
                     <strong>号码：</strong>
                     <span id="idField" class="copyable"></span>
-                    <button id="decodeBtn">解读</button>
                 </p>
-                <p><strong>性别：</strong><span id="genderField"></span></p>
-                <p><strong>地区：</strong><span id="areaField"></span></p>
             </div>
         </div>
     </div>
 
+    <!-- 网页底部提示信息 -->
+    <div style="text-align: center; margin-top: 20px; color: #888;">
+        为保障流畅，仅随即加载500数据，如有需要请点击
+        <button id="refreshBtn" style="background-color: #007BFF; color: #fff; border: none; padding: 5px 10px; cursor: pointer;">刷新</button>
+    </div>
+
     <script src="js/script.js" defer></script>
 </body>
+
 </html>
