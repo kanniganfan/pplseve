@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人员信息</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>人员信息列表</h1>
+    
+    <div>
+        <input type="text" id="nameSearch" placeholder="搜索名字..." />
+        <select id="ageFilter">
+            <option value="">选择年龄</option>
+            <option value="18-25">18-25</option>
+            <option value="26-35">26-35</option>
+            <option value="36-45">36-45</option>
+            <option value="46-55">46-55</option>
+            <option value="56-65">56-65</option>
+            <option value="66+">66+</option>
+        </select>
+        <select id="genderFilter">
+            <option value="">选择性别</option>
+            <option value="男">男</option>
+            <option value="女">女</option>
+        </select>
+        <select id="areaFilter">
+            <option value="">选择地区</option>
+            <option value="北京">北京</option>
+            <!-- 其他省份选项 -->
+        </select>
+        <button id="filterBtn">筛选</button>
+    </div>
+
+    <div id="personnel-list" class="personnel-list"></div>
+
+    <!-- 弹出窗口 -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>用户详细信息</h2>
+            <div id="modalContent" class="modal-text">
+                <p><strong>名字：</strong><span id="nameField" class="copyable"></span></p>
+                <p>
+                    <strong>号码：</strong>
+                    <span id="idField" class="copyable"></span>
+                    <button id="decodeBtn">解读</button>
+                </p>
+                <p><strong>性别：</strong><span id="genderField"></span></p>
+                <p><strong>地区：</strong><span id="areaField"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js" defer></script>
+</body>
+</html>

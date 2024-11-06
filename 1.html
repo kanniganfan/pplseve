@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>号码解读</title>
+    <link rel="stylesheet" href="css/decode.css">
+</head>
+<body>
+    <div class="decode-container">
+        <h1>号码解读</h1>
+        <p><strong>号码:</strong> <span id="decodedId"></span></p>
+        <p id="decodeResult"></p>
+    </div>
+    
+    <!-- 返回按钮 -->
+    <button class="return-button" onclick="goBack()">返回</button>
+
+    <script src="js/decode.js" defer></script>
+    <script>
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

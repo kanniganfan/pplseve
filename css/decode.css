@@ -1,0 +1,46 @@
+/* 基本样式 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9fc;
+    margin: 0;
+    padding: 20px;
+}
+
+.decode-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.decode-container h1 {
+    color: #333;
+}
+
+.decode-container p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* 返回按钮 */
+.return-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.return-button:hover {
+    background-color: #0056b3;
+}
