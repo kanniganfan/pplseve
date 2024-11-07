@@ -7,6 +7,9 @@
 
 在此，我们郑重地发出提醒：无论处于何种状况，绝对不可以对这些数据进行倒卖行为！倒卖数据是一种极其不道德的行为，它不仅违背了基本的伦理规范，还可能会让实施者面临极为严重的法律制裁后果。在此，我们郑重地发出提醒：无论处于何种状况，绝对不可以对这些数据进行倒卖行为！倒卖数据是一种极其不道德的行为，它不仅违背了基本的伦理规范，还可能会让实施者面临极为严重的法律制裁后果。
 
+为了其安全起见，暂时关闭了身份显示，你理解你可以自己找到代码优化后自己做剩下的部分并且部署到自己的服务器
+
+
 The project will absolutely not carry out any form of explanation under any circumstances. Under no circumstances will this project engage in any form of explanatory work. Its nature determines that this non-explanatory state must be maintained in all situations to ensure the specific operation mode of the project.
 
 It should be emphasized that although the project may be used for real-name authentication operations with some illegal software in certain cases, it must be made clear that this behavior is strictly prohibited. Any attempt to use this project for such illegal operations will face serious consequences.
